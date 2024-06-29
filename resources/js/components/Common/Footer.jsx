@@ -11,8 +11,8 @@ function Footer() {
     return (
         <Container fluid className='px-0 footer-wrap'>
          <Row>
-        <Col lg="6">
-        <p className='ps-3'>@{(new Date().getFullYear())} WizzHosting</p>
+        <Col lg="6" className='d-flex align-items-center'>
+        <p className='ps-3 mb-0'>@{(new Date().getFullYear())} WizzHosting</p>
          </Col>
          <Col lg="6" className="d-flex justify-content-end pe-5">
          <Navbar expand="lg">

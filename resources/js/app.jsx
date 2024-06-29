@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { Component } from "react";
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Container from 'react-bootstrap/Container';
-import Layout from './Layout';
-import Dashboard from './pages/Dashboard';
-import Product from './pages/Product';
-function App() {
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AppRoute from "./routes/AppRoute";
+
+class App extends Component{
+  render() {
+
     return (
-        <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="products" element={<Product />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>  
+      <Router>
+        <AppRoute></AppRoute>
+          </Router>
     );
+  }
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);

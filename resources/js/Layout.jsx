@@ -3,9 +3,9 @@ import { Outlet } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Sidebar from './common/SideBar';
-import Header from './common/Header';
-import Footer from './common/Footer';
+import Sidebar from './components/Common/SideBar';
+import Header from './components/Common/Header';
+import Footer from './components/Common/Footer';
 
 function Layout() {
     return (

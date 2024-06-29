@@ -26,7 +26,7 @@ function Product() {
     const productListColumns = productList.map((item, index) => { 
         return(<Col lg="4" key={index}>    
         <div class="content-wrap p-4 shadow">
-        <div className='content d-flex flex-column h-100'>
+        <div className='content d-flex flex-column justify-content-between h-100'>
             <h4 className='content-heading text-primary'>{item.productName}</h4>
             <div class="content-details d-flex justify-content-between w-100 align-items-center">
             <h4 className='content-heading mb-0'><span>From</span><span class="price text-primary"> {item.productPrice}</span></h4>
