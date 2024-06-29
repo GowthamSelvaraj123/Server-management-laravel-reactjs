@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Sidebar from './components/Common/SideBar';
 import Header from './components/Common/Header';
 import Footer from './components/Common/Footer';
+import Register from './pages/Register';
 
 function Layout() {
     return (

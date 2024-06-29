@@ -9,8 +9,8 @@ button.login-register-button.btn.btn-primary {background-color: transparent; bor
 .navbar-nav h2 {font-size: 12px;color: white;text-transform: uppercase;margin-bottom: 0px;}
 a.nav-link {color: #9ba0b3;}
 .menu-item svg {color: #9ba0b3;}
-.form-control {border: unset;}
-.form-control:focus{box-shadow: unset;}
+.search-wrap .form-control {border: unset;}
+.search-wrap .form-control:focus{box-shadow: unset;}
 h1{font-size: 1.71rem;color: #4f5457;font-weight: 400;}
 h4{font-size: 1.14rem;color: #4f5457;font-weight: 400;}
 .dashboard-wrap .content-wrap { height: 200px; border: .07rem solid #ebecf0; border-radius: .43rem; }
@@ -18,3 +18,4 @@ h4{font-size: 1.14rem;color: #4f5457;font-weight: 400;}
 a{text-decoration: unset;}
 .navbar-expand-lg .navbar-nav .nav-link{font-size:14px;}
 .add-scroll{height: calc(100vh - 50px); display: flex; flex-direction: column; overflow-y: scroll; width: 100%; overflow-x: hidden;}
+input.PhoneInputInput {border: unset;}

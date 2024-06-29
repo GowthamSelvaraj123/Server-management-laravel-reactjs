@@ -1,22 +1,70 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login','register']]);
+    }
+
+    /* Login API */
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'email'=>'required|string|email',
+                'password'=>'required|string'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $cridentials = $request->only('email', 'password');
+
+        $token = Auth::attempt($cridentials);
+        
+        if(!$token){
+            return response()->json([
+                'status'=>'error',
+                'message'=>'unauthorized'
+            ], 401);
+        }
+
+        $user = Auth::user();
+        return response()->json([
+            'status'=> 'success',
+            'user'=> $user,
+            'authorisation'=> [
+                'token' => $token,
+                'type' => 'bearer'
+            ]
+        ]);
+    }
+
+    /* Register API */
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ]);
+
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -24,36 +72,11 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json($user, 201);
+        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
     }
-
-    public function login(Request $request)
+    /*User Detail API */
+    public function userDetails()
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-
-        $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
-    }
-
-    public function logout()
-    {
-        Auth::user()->tokens()->delete();
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function user(Request $request)
-    {
-        return response()->json($request->user());
+        return response()->json(auth()->user());
     }
 }
