@@ -5,20 +5,24 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Sidebar from './common/SideBar';
 import Header from './common/Header';
+import Footer from './common/Footer';
 
 function Layout() {
     return (
         <>
-        <div className='header'><Header/></div>
+        <Header/>
         <Container fluid className='px-0 body-wrap'>
         <div class="body-container-wrap">
             <Row className='h-100'>
                 <Col lg="2" className='d-flex align-items-centerd-flex align-items-center justify-content-between sidbar'>
         <div className='h-100 w-100'><Sidebar /></div>
         </Col>
-        <Col lg="10">
-        <div class="dashboard-wrap h-100">
+        <Col lg="10 px-0">
+        <div class="add-scroll">
+        <div class="dashboard-wrap pt-4">
         <Outlet />
+            </div>
+            <Footer></Footer>
             </div>
         </Col>
         </Row>

@@ -25,11 +25,13 @@ function Product() {
     ];
     const productListColumns = productList.map((item, index) => { 
         return(<Col lg="4" key={index}>    
-        <div class="content-wrap d-flex flex-column align-items-center justify-content-center">
-        <div className='content'>
-            <h4 className='content-heading'>{item.productName}</h4>
-            <h4 className='content-heading'><span>From</span>{item.productPrice}</h4>
-            <Button className="btn btn-link border-0 navbar-toggler button-custom-color" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">{item.buttonName}</Button>
+        <div class="content-wrap p-4 shadow">
+        <div className='content d-flex flex-column h-100'>
+            <h4 className='content-heading text-primary'>{item.productName}</h4>
+            <div class="content-details d-flex justify-content-between w-100 align-items-center">
+            <h4 className='content-heading mb-0'><span>From</span><span class="price text-primary"> {item.productPrice}</span></h4>
+            <Button variant="primary">{item.buttonName}</Button>
+            </div>
         </div>
         </div>
         </Col>);
@@ -38,7 +40,7 @@ function Product() {
         <>
         <Container className="h-100 d-flex flex-column justify-content-center">
         <h1 className='text-center my-5'>Check our amazing offers</h1>
-        <Row className='my-5'>
+        <Row className='my-5 gy-4'>
         {productListColumns}
         </Row></Container>
         </>
