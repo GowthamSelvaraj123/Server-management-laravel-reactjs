@@ -1,15 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\DB;
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::get('user', [AuthController::class, 'user']);
-});
+
 
 Route::get('/{any}', function () {
     return view('welcome'); 
 })->where('any', '.*');
+
+Route::get('/check-db-connection', function () {
+    if (DB::connection()->getPdo()) {
+        return "Database connection is successful.";
+    } else {
+        return "Could not connect to the database.";
+    }
+});
