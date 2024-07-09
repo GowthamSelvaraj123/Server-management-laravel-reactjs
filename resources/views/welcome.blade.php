@@ -11,7 +11,8 @@
 <body>
     <div id="root">
     </div>
-    
+    @csrf
+
     @viteReactRefresh
     @vite('resources/js/app.jsx')
 </body>

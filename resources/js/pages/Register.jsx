@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
@@ -14,40 +14,73 @@ function Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: ''
+        message: ''
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('http://127.0.0.1:8000/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-            const data = await response.json();
-            console.log('Registered user:', data.user);
-            // Handle success or navigate to another page
-        } catch (error) {
-            console.error('Error registering user:', error);
-            // Handle error (show message, etc.)
-        }
-    };
+    const [csrfToken, setCsrfToken] = useState('');
+
+    useEffect(() => {
+        // Fetch CSRF token from meta tag
+        const token = document.head.querySelector('meta[name="csrf-token"]').content;
+        setCsrfToken(token);
+    }, []);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/submit-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Pass CSRF token here
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Form submitted successfully:', data);
+            // Optionally, reset the form fields
+            setFormData({ name: '', email: '', message: '' });
+        } catch (error) {
+            console.error('Error submitting the form:', error);
+        }
+    };
+
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
-            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
-            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
-            <button type="submit">Register</button>
+            <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+            />
+            <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+            />
+            <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Message"
+            />
+            <button type="submit">Submit</button>
         </form>
     );
+
 }
 
 

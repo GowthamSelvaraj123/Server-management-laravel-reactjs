@@ -11,11 +11,11 @@ return [
 |
 */
 
-'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'register'], // Paths that are automatically enabled for CORS
+'paths' => ['api/*', 'sanctum/csrf-cookie'], // Paths that are automatically enabled for CORS
 
 'allowed_methods' => ['*'], // HTTP methods that are allowed
 
-'allowed_origins' => ['http://localhost:3000'], // Domains that are allowed to send CORS requests
+'allowed_origins' => ['*'], // Domains that are allowed to send CORS requests
 
 'allowed_origins_patterns' => [], // Patterns for origins that are allowed to send CORS requests
 
