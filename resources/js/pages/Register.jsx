@@ -11,74 +11,53 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input';
 
 function Register() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: ''
-    });
-
-    const [csrfToken, setCsrfToken] = useState('');
-
-    useEffect(() => {
-        // Fetch CSRF token from meta tag
-        const token = document.head.querySelector('meta[name="csrf-token"]').content;
-        setCsrfToken(token);
-    }, []);
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/submit-form', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken // Pass CSRF token here
-                },
-                body: JSON.stringify(formData),
+            const response = await axios.post('http://127.0.0.1:8000/api/register', {
+                name,
+                email,
+                password,
+                password_confirmation: passwordConfirmation,
             });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log('Form submitted successfully:', data);
-            // Optionally, reset the form fields
-            setFormData({ name: '', email: '', message: '' });
+            setMessage(response.data.message);
         } catch (error) {
-            console.error('Error submitting the form:', error);
+            setMessage('Registration failed.');
         }
     };
 
+
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name"
-            />
-            <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-            />
-            <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Message"
-            />
-            <button type="submit">Submit</button>
-        </form>
+        <div>
+            <h2>Register</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Name</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div>
+                    <label>Email</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <div>
+                    <label>Confirm Password</label>
+                    <input type="password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            {message && <p>{message}</p>}
+        </div>
+
     );
 
 }
