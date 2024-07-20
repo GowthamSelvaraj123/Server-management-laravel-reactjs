@@ -8,26 +8,32 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return response()->json(['message' => 'Login successful'], 200);
+            // Authentication passed...
+            $user = Auth::user();
+            return response()->json(['message' => 'Login successful', 'user' => $user], 200);
         }
 
-        return response()->json(['message' => 'Login failed'], 401);
+        return response()->json(['error' => 'Invalid Credentials'], 401);
     }
 
     public function logout(Request $request)
     {
         Auth::logout();
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return response()->json(['message' => 'Logout successful'], 200);
+    public function me()
+    {
+        return response()->json(auth()->user());
     }
 }

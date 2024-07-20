@@ -9,6 +9,8 @@ import Select  from 'react-select';
 import countryList from 'react-select-country-list';
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input';
+import { FormControl, Input, TextField } from '@mui/material';
+import Box from '@mui/material/Box';
 
 function Register() {
     const [name, setName] = useState('');
@@ -34,32 +36,31 @@ function Register() {
 
 
     return (
-        <div>
+        <div className="container">
+            <div className="row">
+                <div class="col-8 mx-auto">
             <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <div>
-                    <label>Confirm Password</label>
-                    <input type="password" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
-                </div>
-                <button type="submit">Register</button>
-            </form>
+            <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="Name">
+             <TextField id="outlined-controlled" label="Name" value={name} onChange={(e) => setName(e.target.value)}/>
+             </Form.Group>
+             <Form.Group className="mb-3" controlId="Email">
+             <TextField id="outlined-controlled" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+             </Form.Group>
+             <Form.Group className="mb-3" controlId="Password">
+            <TextField id="outlined-password-input" label="Password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="Confirm Password">
+            <TextField id="outlined-password-input" label="Confirm Password"  type="password" autoComplete="current-password"
+          value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+            </Form.Group>
+            <Button type="submit">Register</Button>
+            </Form>
             {message && <p>{message}</p>}
+            </div>
+            </div>
         </div>
-
     );
-
 }
 
 
